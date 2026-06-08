@@ -1,0 +1,46 @@
+# environment_v2.yml
+# Environnement conda pour : Détection et suivi d'objets — YOLOv3 / YOLOv8 + Deep SORT
+#
+# Détecteurs :
+#   - YOLOv3 via OpenCV DNN (zéro config CUDA, rapide sur CPU)
+#   - YOLOv8 via ultralytics (PyTorch CPU, installé automatiquement)
+# Suivi : Deep SORT, modèle ReID (.pb) via TensorFlow
+#
+# Usage : conda env create -f environment.yml
+#         conda env update --name video --file environment.yml --prune
+
+name: object_detection
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  # --- Python ---
+  - python=3.9
+
+  # --- Vision / traitement image ---
+  - conda-forge::opencv=4.8.1
+  - conda-forge::pillow=10.1.0
+
+  # --- Calcul scientifique ---
+  - conda-forge::numpy=1.26.2
+  - conda-forge::scipy=1.11.4
+  - conda-forge::scikit-learn=1.3.2
+
+  # --- Utilitaires ---
+  - conda-forge::matplotlib=3.8.2
+  - conda-forge::tqdm=4.66.1
+  - conda-forge::pyyaml=6.0.1
+  - conda-forge::pandas=2.1.4
+
+  # --- Packages pip ---
+  - pip
+  - pip:
+    - tensorflow-cpu==2.13.0   # modèle ReID Deep SORT (.pb frozen graph)
+    - ultralytics>=8.0.0       # détecteur YOLOv8 (installe PyTorch CPU)
+    - filterpy==1.4.5          # filtre de Kalman (Deep SORT)
+    - lapx>=0.5.2              # algorithme hongrois — remplace lap==0.4.0
+    - motmetrics==1.4.0        # métriques MOT : MOTA, MOTP, IDF1
+    - gdown==5.1.0             # téléchargement depuis Google Drive
+    - pycocotools>=2.0.6       # décodage RLE COCO → bounding boxes (conversion MOTS→MOT17)

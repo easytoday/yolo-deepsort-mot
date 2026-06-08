@@ -1,0 +1,179 @@
+# experiments.yaml
+# Définition de l'étude expérimentale — YOLOv3 / YOLOv8 + Deep SORT sur MOT17
+# Lancée par run_ablation.py
+#
+# Chaque expérience précise désormais son détecteur (yolov3 ou yolov8),
+# permettant de comparer les deux générations à conditions égales.
+
+# Séquences évaluées (les 4 disponibles dans MOTSChallenge)
+sequences:
+  - MOT17-02-DPM
+  - MOT17-05-DPM
+  - MOT17-09-DPM
+  - MOT17-11-DPM
+
+experiments:
+
+  # ================================================================
+  # PARTIE 1 — YOLOv3 (détecteur de référence)
+  # ================================================================
+
+  - id: baseline
+    axis: baseline
+    detector_type: yolov3
+    description: "YOLOv3 référence (416px, conf 0.5)"
+    detector:
+      img_size: 416
+      conf_threshold: 0.5
+      nms_threshold: 0.4
+    tracker:
+      max_cosine_distance: 0.3
+      max_age: 30
+      n_init: 3
+
+  - id: res_608
+    axis: resolution
+    detector_type: yolov3
+    description: "YOLOv3 résolution 608px"
+    detector:
+      img_size: 608
+      conf_threshold: 0.5
+      nms_threshold: 0.4
+    tracker:
+      max_cosine_distance: 0.3
+      max_age: 30
+      n_init: 3
+
+  - id: res_832
+    axis: resolution
+    detector_type: yolov3
+    description: "YOLOv3 résolution 832px"
+    detector:
+      img_size: 832
+      conf_threshold: 0.5
+      nms_threshold: 0.4
+    tracker:
+      max_cosine_distance: 0.3
+      max_age: 30
+      n_init: 3
+
+  - id: conf_04
+    axis: confidence
+    detector_type: yolov3
+    description: "YOLOv3 seuil de confiance 0.4"
+    detector:
+      img_size: 416
+      conf_threshold: 0.4
+      nms_threshold: 0.4
+    tracker:
+      max_cosine_distance: 0.3
+      max_age: 30
+      n_init: 3
+
+  - id: conf_03
+    axis: confidence
+    detector_type: yolov3
+    description: "YOLOv3 seuil de confiance 0.3"
+    detector:
+      img_size: 416
+      conf_threshold: 0.3
+      nms_threshold: 0.4
+    tracker:
+      max_cosine_distance: 0.3
+      max_age: 30
+      n_init: 3
+
+  - id: ds_age50
+    axis: deepsort
+    detector_type: yolov3
+    description: "YOLOv3 + Deep SORT mémoire 50"
+    detector:
+      img_size: 416
+      conf_threshold: 0.5
+      nms_threshold: 0.4
+    tracker:
+      max_cosine_distance: 0.2
+      max_age: 50
+      n_init: 3
+
+  - id: ds_age70
+    axis: deepsort
+    detector_type: yolov3
+    description: "YOLOv3 + Deep SORT mémoire 70"
+    detector:
+      img_size: 416
+      conf_threshold: 0.5
+      nms_threshold: 0.4
+    tracker:
+      max_cosine_distance: 0.2
+      max_age: 70
+      n_init: 3
+
+  - id: combo_best
+    axis: combo
+    detector_type: yolov3
+    description: "YOLOv3 combinaison optimale (608px, conf 0.4, mémoire 50)"
+    detector:
+      img_size: 608
+      conf_threshold: 0.4
+      nms_threshold: 0.4
+    tracker:
+      max_cosine_distance: 0.2
+      max_age: 50
+      n_init: 3
+
+  # ================================================================
+  # PARTIE 2 — YOLOv8s (détecteur moderne, comparaison ciblée)
+  # ================================================================
+
+  - id: v8_baseline
+    axis: detector_v8
+    detector_type: yolov8
+    description: "YOLOv8s résolution native 640px, conf 0.5"
+    detector:
+      img_size: 640
+      conf_threshold: 0.5
+      nms_threshold: 0.4
+    tracker:
+      max_cosine_distance: 0.3
+      max_age: 30
+      n_init: 3
+
+  - id: v8_res416
+    axis: detector_v8
+    detector_type: yolov8
+    description: "YOLOv8s à 416px (comparaison équitable avec YOLOv3 baseline)"
+    detector:
+      img_size: 416
+      conf_threshold: 0.5
+      nms_threshold: 0.4
+    tracker:
+      max_cosine_distance: 0.3
+      max_age: 30
+      n_init: 3
+
+  - id: v8_res608
+    axis: detector_v8
+    detector_type: yolov8
+    description: "YOLOv8s à 608px (comparaison équitable avec YOLOv3 res_608)"
+    detector:
+      img_size: 608
+      conf_threshold: 0.5
+      nms_threshold: 0.4
+    tracker:
+      max_cosine_distance: 0.3
+      max_age: 30
+      n_init: 3
+
+  - id: v8_combo
+    axis: detector_v8
+    detector_type: yolov8
+    description: "YOLOv8s combinaison optimale (640px, conf 0.4, mémoire 50)"
+    detector:
+      img_size: 640
+      conf_threshold: 0.4
+      nms_threshold: 0.4
+    tracker:
+      max_cosine_distance: 0.2
+      max_age: 50
+      n_init: 3

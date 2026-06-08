@@ -1,0 +1,28 @@
+# configs/deepsort.yaml
+# Paramètres de configuration pour Deep SORT (suivi)
+# Utilisé par src/tracker.py
+
+model:
+  # Modèle ReID (ré-identification) pour l'extraction des features d'apparence
+  # Modèle léger entraîné sur Market-1501 + MARS (Re-ID piétons)
+  reid_model: weights/mars-small128.pb
+
+tracker:
+  # Distance cosinus maximale pour l'association par apparence
+  # Plus petite = plus strict (moins de faux positifs d'identité)
+  max_cosine_distance: 0.3
+
+  # Taille de la galerie de features par piste (mémoire d'apparence)
+  nn_budget: 100
+
+  # Nombre maximum de frames sans détection avant de supprimer une piste
+  max_age: 30
+
+  # Nombre minimum de détections consécutives pour confirmer une nouvelle piste
+  # Permet d'éviter les pistes créées sur un faux positif
+  n_init: 3
+
+  # Poids de l'association par apparence vs position (Filtre de Kalman)
+  # 1.0 = uniquement apparence, 0.0 = uniquement position
+  # Deep SORT combine les deux via l'algorithme hongrois en deux passes
+  lambda_: 0.98

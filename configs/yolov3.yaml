@@ -1,0 +1,30 @@
+# configs/yolov3.yaml
+# Paramètres de configuration pour YOLOv3 (détection)
+# Utilisé par src/detector.py
+
+model:
+  # Chemin vers les poids pré-entraînés COCO (téléchargés par setup.sh)
+  weights: weights/yolov3.weights
+  # Fichier de configuration réseau YOLOv3 (téléchargé par setup.sh)
+  cfg: weights/yolov3.cfg
+  # Fichier des noms de classes COCO
+  names: weights/coco.names
+
+inference:
+  # Taille d'entrée du réseau (multiple de 32)
+  # 416 est le standard YOLOv3, réduire à 320 pour aller plus vite sur CPU
+  img_size: 416
+  # Seuil de confiance minimum pour garder une détection
+  conf_threshold: 0.5
+  # Seuil IoU pour la Non-Maximum Suppression
+  nms_threshold: 0.4
+  # Classes à détecter : 0 = "person" dans COCO
+  # Pour MOT17 (piétons uniquement), on filtre sur la classe 0
+  target_classes:
+    - 0   # person
+
+output:
+  # Afficher les détections à l'écran (ralentit le traitement sur CPU)
+  visualize: false
+  # Sauvegarder les frames annotées
+  save_frames: false

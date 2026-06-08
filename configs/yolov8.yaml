@@ -1,0 +1,21 @@
+# configs/yolov8.yaml
+# Paramètres de configuration pour YOLOv8 (détection)
+# Utilisé par src/detector_yolov8.py
+
+model:
+  # Poids YOLOv8 — téléchargés automatiquement par ultralytics au 1er usage
+  # Options : yolov8n.pt (nano), yolov8s.pt (small), yolov8m.pt (medium)...
+  # On utilise small : bon compromis vitesse/précision sur CPU
+  weights: weights/yolov8s.pt
+
+inference:
+  # Taille d'inférence. YOLOv8 utilise 640 par défaut.
+  # Pour une comparaison équitable avec YOLOv3, on pourra aussi tester 416.
+  img_size: 640
+  # Seuil de confiance minimum
+  conf_threshold: 0.5
+  # Seuil IoU pour la Non-Maximum Suppression
+  nms_threshold: 0.4
+  # Classes à détecter : 0 = "person" dans COCO (même indexation que YOLOv3)
+  target_classes:
+    - 0   # person

@@ -1,0 +1,45 @@
+# .gitignore — projet YOLO + Deep SORT
+
+# --- Archive ---
+archive/
+
+# --- Poids des modèles (lourds) ---
+weights/*.weights
+weights/*.pt
+weights/*.pb
+weights/*.cfg
+weights/*.names
+
+# --- Données MOT17 / MOTSChallenge (à télécharger séparément) ---
+data/
+
+# --- Dépendance externe clonée par setup.sh ---
+deep_sort/
+
+# --- Résultats d'expériences (reproductibles) ---
+results/
+videos/
+
+# --- Vidéos et fichiers temporaires ---
+*.avi
+*.mp4
+
+# --- Environnement Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# --- LaTeX ---
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# --- Système ---
+.DS_Store
+Thumbs.db
+cookies.txt
