@@ -15,7 +15,7 @@ import argparse
 from pathlib import Path
 import cv2
 
-sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from src.utils import MOT17Sequence, draw_tracks
 import numpy as np
 

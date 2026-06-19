@@ -28,27 +28,36 @@ pipeline.
 
 ## Project Structure
 
+All scripts are run from the repository root (e.g. `python scripts/run_tracker.py ...`).
+
 ```
 yolo_deepsort_mot/
 ├── environment.yml          # conda environment
-├── experiments.yaml         # ablation study definition (12 configurations)
-├── configs/                 # YOLOv3, YOLOv8, Deep SORT configurations
-├── src/
+├── configs/                 # detector, tracker and experiment configurations
+│   ├── yolov3.yaml
+│   ├── yolov8.yaml
+│   ├── deepsort.yaml
+│   └── experiments.yaml     # ablation study definition (12 configurations)
+├── src/                     # library code (detection + tracking)
 │   ├── detector.py          # YOLOv3 wrapper (OpenCV DNN)
 │   ├── detector_yolov8.py   # YOLOv8 wrapper (ultralytics)
 │   ├── detector_factory.py  # detector selector
 │   ├── tracker.py           # Deep SORT wrapper
 │   └── utils.py             # MOT17 reading, result writing
-├── scripts/                 # setup, data download, data conversion
-├── run_tracker.py           # tracking on a single sequence
-├── run_mot17.py             # batch tracking
-├── run_ablation.py          # experimental study
-├── evaluate.py              # metrics computation
-├── generate_figures.py      # report figures (FR + EN)
-├── make_video.py            # annotated video generation
-├── make_gif.sh              # video → GIF conversion
-├── verify_install.py        # installation check
-├── test_pipeline.py         # pipeline smoke tests
+├── scripts/                 # all runnable entry points
+│   ├── run_tracker.py       # tracking on a single sequence
+│   ├── run_mot17.py         # batch tracking
+│   ├── run_ablation.py      # experimental study
+│   ├── evaluate.py          # metrics computation
+│   ├── generate_figures.py  # report figures (FR + EN)
+│   ├── make_video.py        # annotated video generation
+│   ├── make_gif.sh          # video → GIF conversion
+│   ├── setup.sh             # download external dependencies
+│   ├── download_mot17.sh    # dataset download helper
+│   ├── convert_mots_to_mot17.py  # MOTS → MOT bounding-box conversion
+│   └── verify_install.py    # installation check
+├── tests/
+│   └── test_pipeline.py     # pipeline smoke tests
 ├── figures/                 # generated report figures (FR)
 ├── figures_en/              # generated report figures (EN)
 └── docs/                    # demo GIFs
@@ -80,7 +89,7 @@ conda activate mot
 bash scripts/setup.sh
 
 # 4. Verify the installation
-python verify_install.py
+python scripts/verify_install.py
 ```
 
 The YOLOv8 detector automatically downloads its weights (`yolov8s.pt`) on first use,
@@ -113,49 +122,49 @@ on `pycocotools`.
 
 ```bash
 # With YOLOv3 (default detector)
-python run_tracker.py --sequence data/MOT17/train/MOT17-02-DPM
+python scripts/run_tracker.py --sequence data/MOT17/train/MOT17-02-DPM
 
 # With YOLOv8
-python run_tracker.py --sequence data/MOT17/train/MOT17-02-DPM --detector yolov8
+python scripts/run_tracker.py --sequence data/MOT17/train/MOT17-02-DPM --detector yolov8
 ```
 
 ### Processing all sequences
 
 ```bash
-python run_mot17.py --split train --detector yolov8
+python scripts/run_mot17.py --split train --detector yolov8
 ```
 
 ### Evaluation
 
 ```bash
-python evaluate.py --split train
+python scripts/evaluate.py --split train
 ```
 
 ## Reproducing the Full Experimental Study
 
 The study compares 12 configurations (8 for YOLOv3, 4 for YOLOv8) covering inference
 resolution, confidence threshold, tracking parameters, and the choice of detector.
-It is driven by `run_ablation.py`, which records progress and allows the study to be
+It is driven by `scripts/run_ablation.py`, which records progress and allows the study to be
 run incrementally over time.
 
 ```bash
 # Show progress
-python run_ablation.py --status
+python scripts/run_ablation.py --status
 
 # Run a specific experiment
-python run_ablation.py --exp v8_combo
+python scripts/run_ablation.py --exp v8_combo
 
 # Run an entire axis (e.g. all YOLOv8 configurations)
-python run_ablation.py --axis detector_v8
+python scripts/run_ablation.py --axis detector_v8
 
 # Run all remaining experiments
-python run_ablation.py --all
+python scripts/run_ablation.py --all
 
 # Generate the final comparison table
-python run_ablation.py --report
+python scripts/run_ablation.py --report
 ```
 
-Experiments are defined in `experiments.yaml`. Each result is saved under
+Experiments are defined in `configs/experiments.yaml`. Each result is saved under
 `results/ablation/<id>/` together with the exact configuration used
 (`config_used.yaml`), ensuring reproducibility.
 
@@ -179,19 +188,19 @@ as fast as YOLOv3 on CPU, while improving all quality metrics.
 
 ```bash
 # 1. Generate an annotated video from existing results (fast)
-python make_video.py \
+python scripts/make_video.py \
     --sequence data/MOT17/train/MOT17-02-DPM \
     --results results/ablation/v8_combo/MOT17-02-DPM.txt \
     --output videos/mot17-02_yolov8.avi
 
-python make_video.py \
+python scripts/make_video.py \
     --sequence data/MOT17/train/MOT17-02-DPM \
     --results results/ablation/baseline/MOT17-02-DPM.txt \
     --output videos/mot17-02_yolov3.avi
 
 # 2. Convert to a lightweight GIF (~3-4 MB, 10-second clip)
-bash make_gif.sh videos/mot17-02_yolov8.avi docs/yolov8.gif
-bash make_gif.sh videos/mot17-02_yolov3.avi docs/yolov3.gif
+bash scripts/make_gif.sh videos/mot17-02_yolov8.avi docs/yolov8.gif
+bash scripts/make_gif.sh videos/mot17-02_yolov3.avi docs/yolov3.gif
 ```
 
 ## Technology Stack

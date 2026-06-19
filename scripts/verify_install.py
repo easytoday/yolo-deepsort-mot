@@ -8,7 +8,8 @@ import time
 import numpy as np
 from pathlib import Path
 
-ROOT = Path(__file__).parent
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "deep_sort"))
 
 # Couleurs terminal

@@ -20,12 +20,13 @@ import yaml
 from pathlib import Path
 from datetime import datetime
 
-ROOT = Path(__file__).parent
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "deep_sort"))
 
 # État persistant : quelles expériences sont terminées
 STATE_FILE   = ROOT / "results" / "ablation" / "state.json"
-EXPERIMENTS  = ROOT / "experiments.yaml"
+EXPERIMENTS  = ROOT / "configs" / "experiments.yaml"
 BASE_TRK_CFG = ROOT / "configs" / "deepsort.yaml"
 
 

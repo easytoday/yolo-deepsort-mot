@@ -12,6 +12,7 @@ import pandas as pd
 import motmetrics as mm
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from src.utils import MOT17Sequence, list_mot17_sequences
 
 

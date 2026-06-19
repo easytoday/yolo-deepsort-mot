@@ -11,8 +11,10 @@ import time
 import cv2
 from pathlib import Path
 
-# Ajout des dossiers externes dans sys.path (deep_sort cloné par setup.sh)
-sys.path.insert(0, str(Path(__file__).parent / "deep_sort"))
+# Racine du projet + dossiers externes dans sys.path (deep_sort cloné par setup.sh)
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "deep_sort"))
 
 from src.detector_factory import build_detector
 from src.tracker          import DeepSORTTracker
