@@ -19,7 +19,8 @@ import numpy as np
 import cv2
 from pathlib import Path
 
-ROOT = Path(__file__).parent
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "deep_sort"))
 
 CONFIGS_OK = (
