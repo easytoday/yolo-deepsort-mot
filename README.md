@@ -18,7 +18,10 @@ and IDF1 metrics.
 ## Architecture
 
 ```
-Video sequence → YOLOv3/YOLOv8 (detection) → Deep SORT (tracking) → MOT results → evaluation
++----------+     +---------------+     +------------+     +-----------+     +------------+
+|  Video   |     | YOLOv3/YOLOv8 |     | Deep SORT  |     |    MOT    |     | Evaluation |
+| sequence | --> |  (detection)  | --> | (tracking) | --> |  results  | --> |            |
++----------+     +---------------+     +------------+     +-----------+     +------------+
 ```
 
 The detector and tracker are decoupled through a stable interface based on bounding
