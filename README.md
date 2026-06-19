@@ -31,6 +31,7 @@ pipeline.
 ```
 yolo_deepsort_mot/
 ├── environment.yml          # conda environment
+├── experiments.yaml         # ablation study definition (12 configurations)
 ├── configs/                 # YOLOv3, YOLOv8, Deep SORT configurations
 ├── src/
 │   ├── detector.py          # YOLOv3 wrapper (OpenCV DNN)
@@ -43,9 +44,25 @@ yolo_deepsort_mot/
 ├── run_mot17.py             # batch tracking
 ├── run_ablation.py          # experimental study
 ├── evaluate.py              # metrics computation
-├── generate_figures.py      # report figures
+├── generate_figures.py      # report figures (FR + EN)
 ├── make_video.py            # annotated video generation
-└── make_gif.sh              # video → GIF conversion
+├── make_gif.sh              # video → GIF conversion
+├── verify_install.py        # installation check
+├── test_pipeline.py         # pipeline smoke tests
+├── figures/                 # generated report figures (FR)
+├── figures_en/              # generated report figures (EN)
+└── docs/                    # demo GIFs
+```
+
+The following are **not tracked in the repository** and are created locally on
+demand:
+
+```
+├── deep_sort/               # external dependency, cloned by scripts/setup.sh
+├── weights/                 # model weights, downloaded by scripts/setup.sh
+├── data/                    # MOT17 / MOTSChallenge dataset (see Data Preparation)
+├── results/                 # experiment outputs (reproducible)
+└── videos/                  # generated annotated videos
 ```
 
 ## Installation
@@ -57,7 +74,7 @@ cd yolo_deepsort_mot
 
 # 2. Create the conda environment
 conda env create -f environment.yml
-conda activate video
+conda activate mot
 
 # 3. Download external dependencies (Deep SORT, YOLOv3 weights, ReID model)
 bash scripts/setup.sh

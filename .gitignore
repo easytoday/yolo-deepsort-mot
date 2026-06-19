@@ -3,6 +3,9 @@
 # --- Archive ---
 archive/
 
+# --- Rapport livré par une autre voie (hors GitHub) ---
+to_deliver/
+
 # --- Poids des modèles (lourds) ---
 weights/*.weights
 weights/*.pt

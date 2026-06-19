@@ -1,4 +1,4 @@
-# environment_v2.yml
+# environment.yml
 # Environnement conda pour : Détection et suivi d'objets — YOLOv3 / YOLOv8 + Deep SORT
 #
 # Détecteurs :
@@ -7,9 +7,9 @@
 # Suivi : Deep SORT, modèle ReID (.pb) via TensorFlow
 #
 # Usage : conda env create -f environment.yml
-#         conda env update --name video --file environment.yml --prune
+#         conda env update --name mot --file environment.yml --prune
 
-name: object_detection
+name: mot
 
 channels:
   - conda-forge
